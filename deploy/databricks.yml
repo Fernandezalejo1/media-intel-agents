@@ -1,0 +1,31 @@
+bundle:
+  name: media-intel-agents
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    default: true
+    workspace:
+      host: https://YOUR-WORKSPACE.cloud.databricks.com
+
+resources:
+  jobs:
+    media_intel_batch:
+      name: media-intel-agent-batch
+      tasks:
+        - task_key: run_agent_batch
+          python_wheel_task:
+            package_name: media_intel
+            entry_point: demo
+          job_cluster_key: agent_cluster
+      job_clusters:
+        - job_cluster_key: agent_cluster
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 1
+      parameters:
+        - name: LLM_PROVIDER
+          default: mock
