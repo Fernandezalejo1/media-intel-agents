@@ -1,0 +1,55 @@
+# Media Intelligence Agent Platform — local stack
+#
+# Modo offline (default, sin API keys):
+#   docker compose up --build
+#   -> API en http://localhost:8000  (Swagger en /docs, health en /healthz)
+#
+# Modo con modelo real (Ollama, sin claves de nube):
+#   docker compose --profile llm up --build
+#   docker compose exec ollama ollama pull qwen2.5:7b-instruct
+#   -> LLM_PROVIDER=openai y OPENAI_BASE_URL=http://ollama:11434/v1
+#
+# Databricks / OpenAI real: copiá .env.example a .env y completá las credenciales.
+
+services:
+  api:
+    build: .
+    image: media-intel-agents:local
+    ports:
+      - "8000:8000"
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-http://ollama:11434/v1}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-ollama}
+      LLM_MODEL_LARGE: ${LLM_MODEL_LARGE:-mock-large}
+      LLM_MODEL_SMALL: ${LLM_MODEL_SMALL:-mock-small}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-mock}
+      AUTO_APPROVE: ${AUTO_APPROVE:-false}
+      MAX_LLM_CALLS_PER_RUN: ${MAX_LLM_CALLS_PER_RUN:-24}
+      MAX_TOTAL_TOKENS_PER_RUN: ${MAX_TOTAL_TOKENS_PER_RUN:-60000}
+      RUN_DEADLINE_MS: ${RUN_DEADLINE_MS:-20000}
+      API_KEY: ${API_KEY:-}
+      MLFLOW_ENABLED: ${MLFLOW_ENABLED:-false}
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz').status==200 else 1)"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    profiles: ["llm"]
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  ollama-data:

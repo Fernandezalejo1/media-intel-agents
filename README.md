@@ -109,6 +109,38 @@ que queda en espera y el trace final con tokens y costo.
 
 ---
 
+## Quickstart con Docker (un comando)
+
+```bash
+docker compose up --build
+# API:    http://localhost:8000
+# Swagger: http://localhost:8000/docs
+# Health:  http://localhost:8000/healthz
+```
+
+El compose arranca en modo `mock` (determinista, sin claves) y espera el
+`healthcheck` de `/healthz` antes de reportar el servicio como sano.
+
+---
+
+## Pasar a un LLM real en 2 comandos (Ollama, sin claves de nube)
+
+```bash
+# 1) levanta la API + Ollama y baja un modelo
+docker compose --profile llm up --build -d
+docker compose exec ollama ollama pull qwen2.5:7b-instruct
+
+# 2) apunta el provider OpenAI-compatible al Ollama del compose
+docker compose up -d   -e LLM_PROVIDER=openai   -e OPENAI_BASE_URL=http://ollama:11434/v1   -e LLM_MODEL_LARGE=qwen2.5:7b-instruct   -e LLM_MODEL_SMALL=qwen2.5:7b-instruct
+```
+
+Con un modelo local chico el routing del supervisor y el veredicto del quality
+gate van a ser de menor calidad que con GPT-4o o Claude — por eso la aprobación
+sigue siendo humana. Lo importante es que **no cambia una línea de código**:
+mismos agentes, mismas tools, mismos presupuestos, mismas trazas.
+
+---
+
 ## API
 
 ```bash

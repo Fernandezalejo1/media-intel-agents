@@ -1,0 +1,28 @@
+# Entorno y estado local
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Estado de runtime y datos locales
+.runs/
+.lakehouse/
+.tmp-test/
+
+# Caches y artefactos
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.git/
+.github/
+.freebuff/
+
+# Documentación e imágenes
+docs/screenshots/
+*.md
+!README.md
