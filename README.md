@@ -314,3 +314,9 @@ Cobertura de las piezas críticas:
 ```bash
 .venv/Scripts/python -m pytest
 ```
+
+---
+
+## Licencia
+
+MIT © 2026 Alejo Fernandez Di Piramo — ver [LICENSE](LICENSE).
