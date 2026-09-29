@@ -1,5 +1,7 @@
 # Media Intelligence Agent Platform
 
+[![CI](https://github.com/Fernandezalejo1/media-intel-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/Fernandezalejo1/media-intel-agents/actions/workflows/ci.yml)
+
 Plataforma multi-agente de grado producción para flujos de trabajo editoriales de
 medios/deportes. Demuestra exactamente las responsabilidades del rol objetivo:
 **sistemas agénticos (supervisor + sub-agentes), aplicaciones LLM, inteligencia
