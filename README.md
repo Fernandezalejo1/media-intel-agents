@@ -88,7 +88,11 @@ entorno.
 
 ---
 
-## Quickstart (offline, sin API keys)
+## Quickstart
+
+Dos formas de arrancar, ambas sin claves de nube.
+
+### Opción A — Local, sin API keys
 
 ```bash
 # 1) Crear el entorno
@@ -109,9 +113,7 @@ python -m venv .venv
 La demo imprime la ruta elegida, la narrativa, el QA, la solicitud de publicación
 que queda en espera y el trace final con tokens y costo.
 
----
-
-## Quickstart con Docker (un comando)
+### Opción B — Con Docker (un comando)
 
 ```bash
 docker compose up --build
@@ -185,7 +187,7 @@ header `X-API-Key`.
 
 ---
 
-## Cambiar a modelos reales (compatibles con OpenAI)
+## Endpoints compatibles con OpenAI (cualquier proveedor)
 
 ```bash
 cp .env.example .env
